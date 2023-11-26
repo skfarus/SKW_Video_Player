@@ -1,0 +1,50 @@
+﻿<Window x:Class="SKW_Video_Player.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SKW_Video_Player"
+		xmlns:commands="clr-namespace:SKW_Video_Player.Commands"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+		DataContext="{Binding local.MainWindowViewModel}"
+		SizeChanged="Window_SizeChanged">
+	<Window.Resources>
+		<local:MainWindowViewModel x:Key="viewModel"/>
+	</Window.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="25px"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="50px"/>
+		</Grid.RowDefinitions>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="{Binding Path=MediaName, Source={StaticResource viewModel}}"/>
+			<Button Content="Open" Command="{Binding Path=OpenCommand, Source={StaticResource viewModel}}"/>
+		</StackPanel>
+		<MediaElement Grid.Row="1"
+					  Source="{Binding MediaElementSource, Source={StaticResource viewModel}}"
+					  LoadedBehavior="Manual"
+					  UnloadedBehavior="Stop"
+					  Stretch="Fill"
+					  x:Name="MediaElement1"
+					  ScrubbingEnabled="True"
+					  MediaOpened="MediaElement1_MediaOpened"/>
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<Button Content="Play" Grid.Column="0" Click="PlayButton_Click"/>
+			<Button Content="Pause" Grid.Column="1" Click="PauseButton_Click"/>
+			<Button Content="Stop" Grid.Column="2" Click="StopButton_Click"/>
+			<Button Content="Previous Frame" Grid.Column="3" Click="BackwardsOneFrameButton_Click"/>
+			<Button Content="Next Frame" Grid.Column="4" Click="ForwardOneFrameButton_Click"/>
+			<Slider Orientation="Horizontal" Grid.Column="5" ValueChanged="Slider_ValueChanged" x:Name="timelineSlider" Maximum="1"/>
+		</Grid>
+	</Grid>
+</Window>
